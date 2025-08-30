@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %} {{food.name}} {% endblock %}
+{% block food_active %} selected {% endblock %}
+{% block content %}
+<h1>{{food.name}} {% if food.spicy %}🌶️{% endif %} </h1>
+<div class="about_store">
+    <h2>{{food.shavarma_store}}</h2>
+    {% if food.spicy %}
+    <p>🌶️ - Острая</p>
+    {% endif %}
+    <p>Оценка: {{food.stars_display}}</p>
+    <h3>Цена - {{food.price}}</h3>
+</div>
+<div>
+    <h2>Ингридиенты</h2>
+    <div class="ingredients">
+        {% for ingredient in food.ingredients.all %}
+        <p>{{ingredient}}</p>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

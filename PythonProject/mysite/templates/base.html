@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link type="text/css" href="{% static 'myapp/css/main.css' %}"  rel="stylesheet"/>
+</head>
+<body>
+    <header>
+        <h1>Шаурма СПБ</h1>
+    </header>
+    <main>
+        <div class="menu">
+            <a href="{% url 'index' %}"><p class="{% block rest_active %}{% endblock %}">Рестораны</p></a>
+            <a href="{% url 'food' %}"><p class="{% block food_active %}{% endblock %}">Блюда</p></a>
+            <a href="{% url 'contacts' %}"><p class="{% block contact_active %}{% endblock %}">Контакты</p></a>
+        </div>
+        <div class="mainpage">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+</body>
+</html>

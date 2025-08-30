@@ -1,0 +1,118 @@
+/* green - темно-зеленый
+    #45d645 - салатовый
+ */
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html, body{
+    height: 100%;
+    font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column; /* Элементы выстраиваем в колонку */
+}
+
+
+header{
+    padding: 1rem;
+    background-color: #E25822;
+    color: white;
+}
+
+header, footer {
+  flex-shrink: 0; /* Шапка и подвал не сжимаются */
+}
+
+main{
+    flex: 1 0 auto;
+    background-color: #f0f0cc;
+    display: flex;
+}
+
+.menu{
+    border-top-style: solid;
+    border-top-color: #45d645;
+    background-color: #8B4513;
+    color: white;
+}
+
+.menu p{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 3rem;
+    padding-left: 1rem; 
+}
+
+
+.menu a{
+    color: white;
+    text-decoration: none;
+}
+
+.selected, .menu p:hover{
+    background-color: #E25822;
+}
+
+.mainpage{
+    padding: 1rem;
+    width: 100%;
+
+}
+
+.container{
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    border-style: solid;
+    min-width: 20rem;
+    border-color: #8B4513;
+}
+
+.container p{
+    margin-top: 0.5rem;
+}
+
+.containers{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.container a{
+    text-decoration: none;
+    color: green;
+}
+
+.container a:hover{
+    color: #45d645;
+}
+
+.about_store p, h2, h3{
+    padding-top: 0.5rem;
+}
+
+
+
+.rest_food{
+    margin-top: 1rem;
+    border-style: solid;
+    padding: 1rem;
+
+}
+
+.ingredients{
+    display: flex;
+}
+
+.ingredients p{
+    padding: 0.5rem;
+    border-style: solid;
+    margin: 0.5rem;
+    border-color: #8B4513;
+}

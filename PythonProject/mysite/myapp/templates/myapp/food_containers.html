@@ -1,0 +1,11 @@
+<div class="containers">
+    {% for food in foods %}
+    <div class="container">
+        <h2>{{food.name}}{% if food.spicy %}🌶️{% endif %}</h2>
+        <p><b>Шаурмечная: </b>{{food.shavarma_store}}</p>
+        <p><b>Оценка: </b>{{food.stars_display}}</p>
+        <p><b>Цена: </b>{{food.price}}р.</p>
+        <p><a href="{{ food.get_absolute_url }}">Подробнее</a></p>
+    </div>
+    {% endfor %}
+</div>

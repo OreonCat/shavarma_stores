@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %} Шаурма {% endblock %}
+{% block rest_active %} selected {% endblock %}
+{% block content %}
+<h1>Шаурмечные</h1>
+<div class="containers">
+    {% for store in stores %}
+    <div class="container">
+        <h2>{{store.name}}</h2>
+        <p><b>Адрес: </b>{{store.address}}</p>
+        <p><b>Оценка: </b>{{store.stars_display}}</p>
+        <p><a href="{{store.get_absolute_url}}">Ассортимент</a></p>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+

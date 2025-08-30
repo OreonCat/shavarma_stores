@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %} {{store.name}} {% endblock %}
+{% block rest_active %} selected {% endblock %}
+{% block content %}
+<h1>{{store.name}}</h1>
+<div class="about_store">
+    <p><b>Адрес: </b>{{store.address}}</p>
+    <p><b>Оценка: </b>{{store.stars_display}}</p>
+    {% if store.network %}
+    <p><b>Сетевая</b></p>
+    {% else %}
+    <p><b>Не сетевая</b></p>
+    {% endif %}
+</div>
+<div class="rest_food">
+    <h1>Блюда</h1>
+    {% include 'myapp/food_containers.html' %}
+</div>
+
+
+{% endblock %}
