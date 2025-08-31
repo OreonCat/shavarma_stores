@@ -15,8 +15,9 @@
     <h2>Ингридиенты</h2>
     <div class="ingredients">
         {% for ingredient in food.ingredients.all %}
-        <p>{{ingredient}}</p>
+        <div><p>{{ingredient}}</p><a href="{% url 'delete_ingredient_from_food' food.id ingredient.id %}"><p class="ingredient_delete">🗑️</p></a></div>
         {% endfor %}
+        <div class="ingredient_add"><a href="{% url 'add_ingredient_to_food' food.id %}"><p>+</p></a></div>
     </div>
 </div>
 

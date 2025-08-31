@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} Добавить игредиент {% endblock %}
+{% block food_active %} selected {% endblock %}
+{% block content %}
+<h1>Добавить ингредиенты</h1>
+<div class="ingredients">
+    {% for ingredient in ingredients %}
+    <div><a href="{% url 'add_ingredient_redirect' food ingredient.id %}"><p>{{ingredient}}</p></a></div>
+    {% endfor %}
+</div>
+{% endblock %}

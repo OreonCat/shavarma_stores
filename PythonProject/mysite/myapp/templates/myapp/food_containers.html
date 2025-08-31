@@ -8,4 +8,8 @@
         <p><a href="{{ food.get_absolute_url }}">Подробнее</a></p>
     </div>
     {% endfor %}
+    <div class="container add_container">
+
+         <a {% if store %} href="{% url 'add_food_from_shop' store.id %}" {% else %} href="{% url 'add_food' %}" {% endif %}><h1>+</h1></a>
+    </div>
 </div>

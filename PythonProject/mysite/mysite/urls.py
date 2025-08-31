@@ -20,5 +20,8 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('myapp.urls')),
-
+    path("select2/", include("django_select2.urls")),
 ]
+
+admin.site.site_header = "Admin panel"
+admin.site.index_title = "Tables"
