@@ -49,3 +49,6 @@ class AddFoodForm(forms.ModelForm):
         if self.store:
             self.fields['shavarma_store'].queryset = ShavarmaStore.objects.filter(pk=self.store)
 
+
+class CloudForm(forms.Form):
+    file = forms.FileField(label="Файл")

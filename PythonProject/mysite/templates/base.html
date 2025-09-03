@@ -18,6 +18,7 @@
             <a href="{% url 'index' %}"><p class="{% block rest_active %}{% endblock %}">Рестораны</p></a>
             <a href="{% url 'food' %}"><p class="{% block food_active %}{% endblock %}">Блюда</p></a>
             <a href="{% url 'contacts' %}"><p class="{% block contact_active %}{% endblock %}">Контакты</p></a>
+            <a href="{% url 'cloud' %}"><p class="{% block cloud_active %}{% endblock %}">Облако</p></a>
         </div>
         <div class="mainpage">
             {% block content %}

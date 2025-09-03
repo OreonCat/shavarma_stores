@@ -1,27 +1,25 @@
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.generic import TemplateView, ListView
 
-from myapp.forms import AddShavarmaStoreForm, AddFoodForm
+from myapp.forms import AddShavarmaStoreForm, AddFoodForm, CloudForm
 from myapp.models import ShavarmaStore, Food, Ingredients
 
 
-# Create your views here.
-def index(request):
-    stores = ShavarmaStore.objects.all()
-    data = {
-        'stores': stores,
-    }
-    return render(request, 'myapp/index.html', data)
 
-def food_list(request):
-    foods = Food.objects.all()
-    data = {
-        'foods': foods,
-    }
-    return render(request, 'myapp/food_list.html', data)
+class IndexView(ListView):
+    model = ShavarmaStore
+    template_name = 'myapp/index.html'
+    context_object_name = 'stores'
 
-def contacts(request):
-    return render(request, 'myapp/contacts.html')
+class FoodListView(ListView):
+    model = Food
+    template_name = 'myapp/food_list.html'
+    context_object_name = 'foods'
+
+class ContactView(TemplateView):
+    template_name = 'myapp/contacts.html'
 
 def shavarma_store_detail(request, pk):
     store = ShavarmaStore.objects.get(pk=pk)
@@ -43,14 +41,8 @@ def food_detail(request, pk):
 
 def add_shop(request):
     if request.method == 'POST':
-        form = AddShavarmaStoreForm(request.POST)
+        form = AddShavarmaStoreForm(request.POST, request.FILES)
         if form.is_valid():
-            #print(form.cleaned_data)
-            #try:
-            #    ShavarmaStore.objects.create(**form.cleaned_data)
-            #    return redirect('index')
-            #except:
-            #    form.add_error(None, "Ошибка добавления поста")
             form.save()
             return redirect('index')
     else:
@@ -105,3 +97,21 @@ def delete_ingredient_from_food(request, food_id, ingredient_id):
     food = Food.objects.get(pk=food_id)
     food.ingredients.remove(ingredient_id)
     return redirect(food.get_absolute_url())
+
+def handle_uploaded_file(f):
+    with open(f"{settings.BASE_DIR}/uploads/{f.name}", 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+def cloud(request):
+
+    if request.method == 'POST':
+        form = CloudForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(form.cleaned_data['file'])
+    else:
+        form = CloudForm()
+    data = {
+        'form': form,
+    }
+    return render(request, 'myapp/cloud.html', data)

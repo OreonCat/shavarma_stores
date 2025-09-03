@@ -24,6 +24,7 @@ class Ingredients(models.Model):
 
 class ShavarmaStore(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название")
+    logo = models.ImageField(upload_to='logo', null=True, blank=True, default=None, verbose_name="Логотип")
     address = models.CharField(max_length=100, verbose_name="Адрес")
     rating = RatingField(verbose_name="Рейтинг")
     network = models.BooleanField(verbose_name="Сетевая")

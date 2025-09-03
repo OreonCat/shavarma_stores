@@ -11,6 +11,9 @@
     {% else %}
     <p><b>Не сетевая</b></p>
     {% endif %}
+    {% if store.logo %}
+    <img src="{{store.logo.url}} ">
+    {% endif %}
 </div>
 <div class="rest_food">
     <h1>Блюда</h1>
