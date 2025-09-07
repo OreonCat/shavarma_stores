@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block other_head %}{{ form.media.css }}{% endblock %}
+{% block food_active %} selected {% endblock %}
+{% block content %}
+
+<h1>{{title}}</h1>
+<form action="" method="POST" class="addform" >
+    {% csrf_token %}
+    <div class="form_error">{{f.non_field_errors}}</div>
+    {% for f in form %}
+    <p><label class="form_label" for="{{ f.id_for_label }}">{{ f.label }}</label> {{f}} </p>
+    <div class="form_error" >{{ f.errors }}</div>
+    {% endfor %}
+    <p class="button_p"><button type="submit">Отправить</button> </p>
+</form>
+{{ form.media.js }}
+{% endblock %}

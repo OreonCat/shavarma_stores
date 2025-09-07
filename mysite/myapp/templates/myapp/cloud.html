@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %} Облако {% endblock %}
+{% block cloud_active %} selected {% endblock %}
+{% block content %}
+    <h1>Облако</h1>
+    <form action="" method="post" enctype="multipart/form-data" class="addform">
+        {% csrf_token %}
+        {% for f in form %}
+        <p><label class="form_label" for="{{ f.id_for_label }}">{{ f.label }}</label> {{f}} </p>
+        {% endfor %}
+        <p class="button_p"><button type="submit">Отправить</button></p>
+    </form>
+{% endblock %}
