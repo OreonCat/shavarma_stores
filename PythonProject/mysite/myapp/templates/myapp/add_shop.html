@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
-{% block title %} Добавить шаурмечную {% endblock %}
 {% block rest_active %} selected {% endblock %}
 {% block content %}
 
-<h1>Добавить шаурмечную</h1>
+<h1>{{title}}</h1>
 <form action="" method="POST" class="addform" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form_error">{{f.non_field_errors}}</div>

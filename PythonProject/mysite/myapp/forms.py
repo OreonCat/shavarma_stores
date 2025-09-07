@@ -13,6 +13,7 @@ class IngredientsWindget(s2forms.ModelSelect2MultipleWidget):
 
 class AddShavarmaStoreForm(forms.ModelForm):
     rating = forms.IntegerField(min_value=0, max_value=5, label="Оценка")
+    logo = forms.ImageField(required=False, widget=forms.FileInput)
     class Meta:
         model = ShavarmaStore
         fields = '__all__'

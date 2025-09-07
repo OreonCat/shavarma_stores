@@ -1,117 +1,137 @@
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from myapp.forms import AddShavarmaStoreForm, AddFoodForm, CloudForm
 from myapp.models import ShavarmaStore, Food, Ingredients
+from myapp.utils import DataMixin
 
 
-
-class IndexView(ListView):
+class IndexView(DataMixin, ListView):
     model = ShavarmaStore
     template_name = 'myapp/index.html'
     context_object_name = 'stores'
+    title_page = "Шаурма"
+    paginate_by = 11
 
-class FoodListView(ListView):
+class FoodListView(DataMixin, ListView):
     model = Food
     template_name = 'myapp/food_list.html'
     context_object_name = 'foods'
+    title_page = "Блюда"
+    paginate_by = 11
 
-class ContactView(TemplateView):
+class ContactView(DataMixin, TemplateView):
     template_name = 'myapp/contacts.html'
+    title_page = "Контакты"
 
-def shavarma_store_detail(request, pk):
-    store = ShavarmaStore.objects.get(pk=pk)
-    foods = Food.objects.filter(shavarma_store=store)
-    data = {
-        'store': store,
-        'foods': foods,
+class ShavarmaStoreDetailView(DetailView):
+    model = ShavarmaStore
+    template_name = 'myapp/shavarma_store_detail.html'
+    pk_url_kwarg = 'pk'
+    context_object_name = 'store'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["foods"] = context['store'].food.all()
+        context["title"] = context['store'].name
+        return context
 
-    }
-    return render(request, 'myapp/shavarma_store_detail.html', data)
-
-def food_detail(request, pk):
-    request.session['return_path'] = request.path
-    food = Food.objects.get(pk=pk)
-    data = {
-        'food': food,
-    }
-    return render(request, 'myapp/food_detail.html', data)
-
-def add_shop(request):
-    if request.method == 'POST':
-        form = AddShavarmaStoreForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-    else:
-        form = AddShavarmaStoreForm()
-    data = {
-        'form': form,
-    }
-    return render(request, 'myapp/add_shop.html', data)
-
-def add_food(request):
-    if request.method == 'POST':
-        form = AddFoodForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('food')
-    else:
-        form = AddFoodForm()
-    data = {
-        'form': form,
-    }
-    return render(request, 'myapp/add_food.html', data)
+class FoodDetailView(DetailView):
+    model = Food
+    template_name = 'myapp/food_detail.html'
+    pk_url_kwarg = 'pk'
+    context_object_name = 'food'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = context['food'].name
+        return context
 
 
-def add_food_from_shop(request, shop_id):
-    shop = ShavarmaStore.objects.get(pk=shop_id)
-    if request.method == 'POST':
-        form = AddFoodForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect(shop.get_absolute_url())
-    else:
-        form = AddFoodForm(store=shop_id)
-    data = {
-        'form': form,
-    }
-    return render(request, 'myapp/add_food.html', data)
+class AddShopView(LoginRequiredMixin, DataMixin, CreateView):
+    form_class = AddShavarmaStoreForm
+    template_name = 'myapp/add_shop.html'
+    success_url = reverse_lazy('index')
+    title_page = "Добавить магазин"
 
-def add_ingredient_to_food(request, food_id):
-    ingredients = Ingredients.objects.exclude(food=food_id)
-    data = {
-        'ingredients': ingredients,
-        'food': food_id,
-    }
-    return render(request, 'myapp/add_ingredient_to_food.html', data)
 
+class UpdateShopView(LoginRequiredMixin, DataMixin, UpdateView):
+    model = ShavarmaStore
+    form_class = AddShavarmaStoreForm
+    template_name = 'myapp/add_shop.html'
+    title_page = "Редактировать"
+
+
+class ShavarmaStoreDeleteView(LoginRequiredMixin, DataMixin, DeleteView):
+    model = ShavarmaStore
+    template_name = 'myapp/delete.html'
+    success_url = reverse_lazy('index')
+    title_page = "Удалить"
+
+
+class AddFoodView(LoginRequiredMixin, DataMixin, CreateView):
+    form_class = AddFoodForm
+    template_name = 'myapp/add_food.html'
+    success_url = reverse_lazy('food')
+    title_page = "Добавить блюдо"
+
+
+class UpdateFoodView(LoginRequiredMixin, DataMixin, UpdateView):
+    model = Food
+    form_class = AddFoodForm
+    template_name = 'myapp/add_food.html'
+    title_page = "Редактировать"
+
+
+class DeleteFoodView(LoginRequiredMixin, DataMixin, DeleteView):
+    model = Food
+    template_name = 'myapp/delete.html'
+    success_url = reverse_lazy('food')
+    title_page = "Удалить"
+
+
+class AddFoodFromShopView(LoginRequiredMixin, DataMixin, CreateView):
+    form_class = AddFoodForm
+    template_name = 'myapp/add_food.html'
+    title_page = "Добавить блюдо"
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['store'] = self.kwargs['shop_id']
+        return kwargs
+
+    def get_success_url(self):
+        shop = ShavarmaStore.objects.get(pk=self.kwargs['shop_id'])
+        return shop.get_absolute_url()
+
+
+class AddIngredientsToFoodView(LoginRequiredMixin, DataMixin, ListView):
+    model = Ingredients
+    template_name = 'myapp/add_ingredient_to_food.html'
+    context_object_name = 'ingredients'
+    title_page = "Добавить ингредиенты"
+
+    def get_queryset(self):
+        return Ingredients.objects.exclude(food=self.kwargs['food_id'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["food"] = self.kwargs['food_id']
+        return context
+
+
+
+@login_required
 def add_ingredient_redirect(request, food_id, ingredient_id):
     food = Food.objects.get(pk=food_id)
     food.ingredients.add(ingredient_id)
     return redirect(food.get_absolute_url())
 
+@login_required
 def delete_ingredient_from_food(request, food_id, ingredient_id):
     food = Food.objects.get(pk=food_id)
     food.ingredients.remove(ingredient_id)
     return redirect(food.get_absolute_url())
-
-def handle_uploaded_file(f):
-    with open(f"{settings.BASE_DIR}/uploads/{f.name}", 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-
-def cloud(request):
-
-    if request.method == 'POST':
-        form = CloudForm(request.POST, request.FILES)
-        if form.is_valid():
-            handle_uploaded_file(form.cleaned_data['file'])
-    else:
-        form = CloudForm()
-    data = {
-        'form': form,
-    }
-    return render(request, 'myapp/cloud.html', data)

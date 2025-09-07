@@ -41,6 +41,7 @@ main{
     border-top-color: #45d645;
     background-color: #8B4513;
     color: white;
+    min-width: 12rem;
 }
 
 .menu p{
@@ -56,7 +57,7 @@ main{
     text-decoration: none;
 }
 
-.selected, .menu p:hover{
+.selected, .menu p:hover, .page_num:hover{
     background-color: #E25822;
 }
 
@@ -215,3 +216,101 @@ main{
     border-color: #8B4513;
 
 }
+
+.update_delete{
+    display: flex;
+    margin-top: 0.5rem;
+}
+
+.update_delete a{
+    padding: 0.5rem;
+    text-decoration: none;
+    color: white;
+}
+
+.update{
+    background-color: #3d88ba;
+}
+
+.update:hover{
+    background-color: #6d9bc9;
+}
+
+.delete{
+    background-color: #c93434;
+}
+
+.delete:hover{
+    background-color: #ed5c5c;
+}
+
+.navigation{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.navigation a{
+    padding: 1rem;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: white;
+}
+
+.navigation p{
+    margin: 0.5rem;
+}
+
+.page_num{
+    background-color: #8B4513;
+}
+
+.user_container p{
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+}
+
+
+
+
+.success_password_change p{
+    margin-top: 1rem;
+    background-color: #3d88ba;
+    padding: 1rem;
+    width: fit-content;
+    align-content: center;   
+}
+
+.success_password_change p:hover{
+    background-color: #6d9bc9;
+}
+
+.success_password_change a{
+    text-decoration: none;
+    color: white;
+}
+
+.password_reset{
+    width: fit-content;
+}
+
+.password_reset_link_box{
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.password_reset_link_box a{
+    text-decoration: none;
+    color: #3d88ba;
+}
+
+.password_reset_link_box a:hover{
+    color: #45d645;
+}
+
+.similar_text_data p{
+    margin-top: 1rem;
+}
+

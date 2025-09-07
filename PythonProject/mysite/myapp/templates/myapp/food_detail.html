@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-{% block title %} {{food.name}} {% endblock %}
 {% block food_active %} selected {% endblock %}
 {% block content %}
-<h1>{{food.name}} {% if food.spicy %}🌶️{% endif %} </h1>
+<h1>{{title}} {% if food.spicy %}🌶️{% endif %} </h1>
 <div class="about_store">
     <h2>{{food.shavarma_store}}</h2>
     {% if food.spicy %}
@@ -10,14 +9,22 @@
     {% endif %}
     <p>Оценка: {{food.stars_display}}</p>
     <h3>Цена - {{food.price}}</h3>
+    {% if user.is_authenticated %}
+    <div class="update_delete">
+        <a href="{% url 'update_food' food.id %}" class="update">Редактировать</a>
+        <a href="{% url 'delete_food' food.id %}" class="delete">Удалить</a>
+    </div>
+    {% endif %}
 </div>
 <div>
     <h2>Ингридиенты</h2>
     <div class="ingredients">
         {% for ingredient in food.ingredients.all %}
-        <div><p>{{ingredient}}</p><a href="{% url 'delete_ingredient_from_food' food.id ingredient.id %}"><p class="ingredient_delete">🗑️</p></a></div>
+        <div><p>{{ingredient}}</p>{% if user.is_authenticated %}<a href="{% url 'delete_ingredient_from_food' food.id ingredient.id %}"><p class="ingredient_delete">🗑️</p></a>{% endif %}</div>
         {% endfor %}
+        {% if user.is_authenticated %}
         <div class="ingredient_add"><a href="{% url 'add_ingredient_to_food' food.id %}"><p>+</p></a></div>
+        {% endif %}
     </div>
 </div>
 

@@ -5,7 +5,7 @@
 <head>
     {% block other_head %}{% endblock %}
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{{title}}</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link type="text/css" href="{% static 'myapp/css/main.css' %}"  rel="stylesheet"/>
 </head>
@@ -18,10 +18,19 @@
             <a href="{% url 'index' %}"><p class="{% block rest_active %}{% endblock %}">Рестораны</p></a>
             <a href="{% url 'food' %}"><p class="{% block food_active %}{% endblock %}">Блюда</p></a>
             <a href="{% url 'contacts' %}"><p class="{% block contact_active %}{% endblock %}">Контакты</p></a>
-            <a href="{% url 'cloud' %}"><p class="{% block cloud_active %}{% endblock %}">Облако</p></a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'admin:index' %}"><p>Админка</p></a>
+                <a href="{% url 'users:user_profile' %}"><p class="{% block user_active %}{% endblock %}">{{user.username}}</p></a>
+                <a href="{% url 'users:logout' %}"><p>Выйти</p></a>
+            {% else %}
+                <a href="{% url 'users:login' %}"><p class="{% block login_active %}{% endblock %}">Войти</p></a>
+                <a href="{% url 'users:register' %}"><p class="{% block register_active %}{% endblock %}">Регистрация</p></a>
+            {% endif %}
         </div>
         <div class="mainpage">
             {% block content %}
+            {% endblock %}
+            {% block navigation %}
             {% endblock %}
         </div>
     </main>

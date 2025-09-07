@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-{% block title %} {{store.name}} {% endblock %}
 {% block rest_active %} selected {% endblock %}
 {% block content %}
-<h1>{{store.name}}</h1>
+<h1>{{title}}</h1>
 <div class="about_store">
     <p><b>Адрес: </b>{{store.address}}</p>
     <p><b>Оценка: </b>{{store.stars_display}}</p>
@@ -14,6 +13,13 @@
     {% if store.logo %}
     <img src="{{store.logo.url}} ">
     {% endif %}
+    {% if user.is_authenticated %}
+    <div class="update_delete">
+        <a href="{% url 'update_shop' store.id %}" class="update">Редактировать</a>
+        <a href="{% url 'store_delete' store.id %}" class="delete">Удалить</a>
+    </div>
+    {% endif %}
+
 </div>
 <div class="rest_food">
     <h1>Блюда</h1>

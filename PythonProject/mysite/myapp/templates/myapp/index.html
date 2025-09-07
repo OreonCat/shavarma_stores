@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-{% block title %} Шаурма {% endblock %}
 {% block rest_active %} selected {% endblock %}
 {% block content %}
-<h1>Шаурмечные</h1>
+<h1>{{title}}</h1>
 <div class="containers">
     {% for store in stores %}
     <div class="container">
@@ -12,11 +11,14 @@
         <p><a href="{{store.get_absolute_url}}">Ассортимент</a></p>
     </div>
     {% endfor %}
+    {% if user.is_authenticated %}
     <div class="container add_container">
          <a href="{% url 'add_shop' %}"><h1>+</h1></a>
     </div>
+    {% endif %}
 </div>
-
-
+{% endblock %}
+{% block navigation %}
+{% include 'myapp/pagination_navigation.html' %}
 {% endblock %}
 
