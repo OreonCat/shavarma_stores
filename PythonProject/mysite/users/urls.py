@@ -1,6 +1,9 @@
 from django.contrib.auth.views import LogoutView, PasswordChangeDoneView, PasswordResetView, PasswordResetDoneView, \
     PasswordResetConfirmView
 from django.urls import path
+from django.conf.urls.static import static
+
+from mysite import settings
 from users import views
 
 app_name = 'users'
@@ -31,4 +34,7 @@ urlpatterns = [
         template_name="users/password_reset_complete.html"),
          name='password_reset_complete'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -17,7 +17,7 @@ class RegisterForm(UserCreationForm):
     password2 = forms.CharField(widget=forms.PasswordInput, label='Повторите')
     class Meta:
         model = get_user_model()
-        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2', 'photo', 'date_of_birth']
         labels = {
             'email': 'E-mail',
             'first_name': 'Имя',
@@ -25,6 +25,7 @@ class RegisterForm(UserCreationForm):
         }
         widgets = {
             'email': forms.EmailInput,
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}, ),
         }
 
     def clean_email(self):
@@ -37,12 +38,16 @@ class RegisterForm(UserCreationForm):
 class UserUpdateForm(forms.ModelForm):
     username = forms.CharField(disabled=True, max_length=100, label="Логин")
     email = forms.EmailField(disabled=True, max_length=100, label="E-mail")
+    photo = forms.ImageField(required=False, widget=forms.FileInput)
     class Meta:
         model = get_user_model()
-        fields = ['username', 'email', 'first_name', 'last_name']
+        fields = ['username', 'email', 'first_name', 'last_name', 'photo', 'date_of_birth']
         labels = {
             "first_name": "Имя",
             "last_name": "Фамилия"
+        }
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}, ),
         }
 
 class UserChangePasswordForm(PasswordChangeForm):

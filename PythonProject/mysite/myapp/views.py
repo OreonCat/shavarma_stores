@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -51,32 +51,36 @@ class FoodDetailView(DetailView):
         return context
 
 
-class AddShopView(LoginRequiredMixin, DataMixin, CreateView):
+class AddShopView(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddShavarmaStoreForm
     template_name = 'myapp/add_shop.html'
     success_url = reverse_lazy('index')
     title_page = "Добавить магазин"
+    permission_required = 'myapp.add_shavarmastore'
 
 
-class UpdateShopView(LoginRequiredMixin, DataMixin, UpdateView):
+class UpdateShopView(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, UpdateView):
     model = ShavarmaStore
     form_class = AddShavarmaStoreForm
     template_name = 'myapp/add_shop.html'
     title_page = "Редактировать"
+    permission_required = 'myapp.change_shavarmastore'
 
 
-class ShavarmaStoreDeleteView(LoginRequiredMixin, DataMixin, DeleteView):
+class ShavarmaStoreDeleteView(PermissionRequiredMixin,LoginRequiredMixin, DataMixin, DeleteView):
     model = ShavarmaStore
     template_name = 'myapp/delete.html'
     success_url = reverse_lazy('index')
     title_page = "Удалить"
+    permission_required = 'myapp.delete_shavarmastore'
 
 
-class AddFoodView(LoginRequiredMixin, DataMixin, CreateView):
+class AddFoodView(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddFoodForm
     template_name = 'myapp/add_food.html'
     success_url = reverse_lazy('food')
     title_page = "Добавить блюдо"
+    permission_required = 'myapp.add_food'
 
 
 class UpdateFoodView(LoginRequiredMixin, DataMixin, UpdateView):
@@ -93,10 +97,11 @@ class DeleteFoodView(LoginRequiredMixin, DataMixin, DeleteView):
     title_page = "Удалить"
 
 
-class AddFoodFromShopView(LoginRequiredMixin, DataMixin, CreateView):
+class AddFoodFromShopView(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddFoodForm
     template_name = 'myapp/add_food.html'
     title_page = "Добавить блюдо"
+    permission_required = 'myapp.add_food'
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

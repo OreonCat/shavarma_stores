@@ -200,7 +200,7 @@ main{
 
 .form_label{
     display: inline-block;
-    min-width: 6rem;
+    min-width: 7.5rem;
 }
 
 .ingredients-windget{
@@ -267,13 +267,14 @@ main{
     background-color: #8B4513;
 }
 
-.user_container p{
+.user_container p, img{
     margin-top: 0.5rem;
     font-size: 1.1rem;
 }
 
-
-
+.user_container img{
+    width: 15rem;
+}
 
 .success_password_change p{
     margin-top: 1rem;

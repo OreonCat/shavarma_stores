@@ -11,7 +11,7 @@
         <p><a href="{{store.get_absolute_url}}">Ассортимент</a></p>
     </div>
     {% endfor %}
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and perms.myapp.add_shavarmastore %}
     <div class="container add_container">
          <a href="{% url 'add_shop' %}"><h1>+</h1></a>
     </div>

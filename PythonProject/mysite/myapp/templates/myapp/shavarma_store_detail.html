@@ -13,7 +13,7 @@
     {% if store.logo %}
     <img src="{{store.logo.url}} ">
     {% endif %}
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and perms.myapp.change_shavarmastore %}
     <div class="update_delete">
         <a href="{% url 'update_shop' store.id %}" class="update">Редактировать</a>
         <a href="{% url 'store_delete' store.id %}" class="delete">Удалить</a>

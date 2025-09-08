@@ -3,6 +3,9 @@
 {% block content %}
     <div class="user_container">
         <h1>{{user_profile.username}}{% if user_profile.is_superuser %} 👑{% endif %}</h1>
+        {% if user_profile.photo %}
+        <img src="{{user_profile.photo.url}} ">
+        {% endif %}
         <p><b>Email: </b>{{user_profile.email}}</p>
         {% if user_profile.first_name %}
         <p><b>Имя: </b>{{user_profile.first_name}}</p>
@@ -13,6 +16,11 @@
         <p><b>Имя: </b>{{user_profile.last_name}}</p>
         {% else %}
         <p><b>Фамилия не задана</b></p>
+        {% endif %}
+        {% if user_profile.date_of_birth %}
+        <p><b>Дата рождения:</b> {{ user_profile.date_of_birth }}</p>
+        {% else %}
+        <p><b>Дата рождения не задана</b></p>
         {% endif %}
         <div class="update_delete">
             <p><a href="{% url 'users:user_profile_update'%}" class="update">Редактировать</a></p>

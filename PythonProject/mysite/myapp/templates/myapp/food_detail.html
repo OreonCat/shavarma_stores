@@ -9,7 +9,7 @@
     {% endif %}
     <p>Оценка: {{food.stars_display}}</p>
     <h3>Цена - {{food.price}}</h3>
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated%}
     <div class="update_delete">
         <a href="{% url 'update_food' food.id %}" class="update">Редактировать</a>
         <a href="{% url 'delete_food' food.id %}" class="delete">Удалить</a>

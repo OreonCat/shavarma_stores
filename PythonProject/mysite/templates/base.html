@@ -19,7 +19,9 @@
             <a href="{% url 'food' %}"><p class="{% block food_active %}{% endblock %}">Блюда</p></a>
             <a href="{% url 'contacts' %}"><p class="{% block contact_active %}{% endblock %}">Контакты</p></a>
             {% if user.is_authenticated %}
+                {% if user.is_superuser %}
                 <a href="{% url 'admin:index' %}"><p>Админка</p></a>
+                {% endif %}
                 <a href="{% url 'users:user_profile' %}"><p class="{% block user_active %}{% endblock %}">{{user.username}}</p></a>
                 <a href="{% url 'users:logout' %}"><p>Выйти</p></a>
             {% else %}
