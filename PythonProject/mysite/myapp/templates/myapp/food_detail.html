@@ -9,7 +9,7 @@
     {% endif %}
     <p>Оценка: {{food.stars_display}}</p>
     <h3>Цена - {{food.price}}</h3>
-    {% if user.is_authenticated%}
+    {% if user.is_authenticated and perms.myapp.change_food %}
     <div class="update_delete">
         <a href="{% url 'update_food' food.id %}" class="update">Редактировать</a>
         <a href="{% url 'delete_food' food.id %}" class="delete">Удалить</a>
@@ -20,9 +20,9 @@
     <h2>Ингридиенты</h2>
     <div class="ingredients">
         {% for ingredient in food.ingredients.all %}
-        <div><p>{{ingredient}}</p>{% if user.is_authenticated %}<a href="{% url 'delete_ingredient_from_food' food.id ingredient.id %}"><p class="ingredient_delete">🗑️</p></a>{% endif %}</div>
+        <div><p>{{ingredient}}</p>{% if user.is_authenticated and perms.myapp.change_food %}<a href="{% url 'delete_ingredient_from_food' food.id ingredient.id %}"><p class="ingredient_delete">🗑️</p></a>{% endif %}</div>
         {% endfor %}
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and perms.myapp.change_food %}
         <div class="ingredient_add"><a href="{% url 'add_ingredient_to_food' food.id %}"><p>+</p></a></div>
         {% endif %}
     </div>

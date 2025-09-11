@@ -83,11 +83,12 @@ class AddFoodView(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, Create
     permission_required = 'myapp.add_food'
 
 
-class UpdateFoodView(LoginRequiredMixin, DataMixin, UpdateView):
+class UpdateFoodView(PermissionRequiredMixin,LoginRequiredMixin, DataMixin, UpdateView):
     model = Food
     form_class = AddFoodForm
     template_name = 'myapp/add_food.html'
     title_page = "Редактировать"
+    permission_required = 'myapp.change_food'
 
 
 class DeleteFoodView(LoginRequiredMixin, DataMixin, DeleteView):
@@ -113,11 +114,12 @@ class AddFoodFromShopView(PermissionRequiredMixin, LoginRequiredMixin, DataMixin
         return shop.get_absolute_url()
 
 
-class AddIngredientsToFoodView(LoginRequiredMixin, DataMixin, ListView):
+class AddIngredientsToFoodView(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, ListView):
     model = Ingredients
     template_name = 'myapp/add_ingredient_to_food.html'
     context_object_name = 'ingredients'
     title_page = "Добавить ингредиенты"
+    permission_required = 'myapp.change_food'
 
     def get_queryset(self):
         return Ingredients.objects.exclude(food=self.kwargs['food_id'])
